@@ -1,0 +1,12 @@
+---
+- hosts: k8s_cluster
+  
+  tasks:
+  - name: create hello-svc service resources to kubernetes
+    command: kubectl apply -f ~/manifest/hello-service.yaml
+    
+  - name: create hello-deploy deployment resources to kubernetes
+    command: kubectl apply -f ~/manifest/hello-deployment.yaml
+    
+  - name: update hello-deploy deployment with new image
+    command: kubectl rollout restart deployment hello-deploy

@@ -1,0 +1,24 @@
+---
+- hosts: ansible_host
+  
+  tasks:
+  - name: cleanup docker image and container
+    block:  
+    - name: stop current running container
+      command: docker stop hello-world
+
+    - name: remove stopped container
+      command: docker rm hello-world
+
+    - name: remove docker image
+      command: docker image rm java-hello-world
+    ignore_errors: true
+
+  - name: build docker image with war file
+    command: docker image build -t java-hello-world .
+    args:
+      chdir: /home/vagrant/hello-world
+  - name: run container using java-hello-world image
+    command: docker run -d --name hello-world -p 8080:8080 java-hello-world
+    args:
+      chdir: /home/vagrant/hello-world

@@ -1,0 +1,19 @@
+---
+- hosts: ansible_host
+
+  tasks:
+  #DO NOT PUSH YOUR PUBLIC GIT REPOSITORY
+  #- name: login to docker hub
+  #  command: docker login -u <YOUR_DOCKER_HUB_ID> -p <YOUR_DOCKER_HUB_PASSWORD>
+
+  - name: build docker image with war file
+    command: docker image build -t c1t1d0s7/java-hello-world .
+    args:
+      chdir: /home/vagrant/hello-world
+
+  - name: push docker image to docker hub
+    command: docker image push c1t1d0s7/java-hello-world
+
+  - name: remove docker image from localhost
+    command: docker image rm c1t1d0s7/java-hello-world
+    ignore_errors: true

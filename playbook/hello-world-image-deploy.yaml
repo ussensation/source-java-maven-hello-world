@@ -1,0 +1,14 @@
+- hosts: docker_host
+
+  tasks:
+  - name: cleanup docker image and container
+    block:
+    - name: stop current running container
+      command: docker stop hello-world
+
+    - name: remove stopped container
+      command: docker rm hello-world
+    ignore_errors: true
+
+  - name: run container using java-hello-world image from docker hub
+    command: docker run -d --name hello-world -p 8080:8080 c1t1d0s7/java-hello-world
